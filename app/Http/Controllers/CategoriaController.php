@@ -16,8 +16,6 @@ class CategoriaController extends Controller
 {
     public function login(Request $request)
     {
-
-
         //validar ampos
     if (empty($request->input('nombre')) || empty($request->input('password'))) {
         return response()->json(['error' => 'Campos incompletos'], 400);
@@ -46,9 +44,6 @@ class CategoriaController extends Controller
 
     }
 
-
-
-
     public function registro(Request $request)
     {
         // Asegurarse de que los datos se reciben en la solicitud GET
@@ -75,10 +70,23 @@ class CategoriaController extends Controller
         return response()->json(['message' => 'Usuario registrado con éxito'], 201);
     }
 
-    //Metodo para obtener al usuario ingresado
-    public function userIngresado($nombre)
-    {
 
+    //Metodo para obtener el ID de usuario ingresado
+    public function userIngresado(Request $request)
+    {
+        //Obtenemos el nombre y el password
+        $nombre = $request->input('nombre');
+
+        //Realizamos la consulta
+        $usuario = User::where('nombre', $nombre)->first();
+
+
+        //PARA VER LA RESPUESTA EN JSON SI ENCUENTRA EL ID
+         if ($usuario) {
+         return response()->json(['usuario' => $usuario->id], 200);
+        } else {
+         return response()->json(['error' => 'Usuario no encontrado'], 404);
+        }
 
     }
 
@@ -92,6 +100,13 @@ class CategoriaController extends Controller
 
     }
 
+            // Método para obtener los ejercicios
+        public function getEjercicios()
+        {
+            $ejercicios = Ejercicio::select('id', 'nombre', 'descripcion')->get();
+
+            return response()->json(['ejercicio' => $ejercicios], 200);
+        }
 
     //Este metodo mediante el Id me cuenta cuantos ejercicios tiene el entrenamiento
     public function countEjerciciosPorEntrenamiento($entrenamientoId)

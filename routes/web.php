@@ -26,6 +26,10 @@ Route::get('/registro', [CategoriaController::class, 'registro']);
 
 Route::get('/frases', [CategoriaController::class, 'Frases']);
 
+Route::get('/getEjercicios', [CategoriaController::class, 'getEjercicios']);
+
+Route::get('/userIngresado', [CategoriaController::class, 'userIngresado']);
+
 Route::get('/foto/{nombre}', [CategoriaController::class,'obtenerFotoPerfil']);
 
 

@@ -14,11 +14,11 @@ return new class extends Migration
         Schema::create('imc', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('usuarioF');
-            $table->unsignedBigInteger('categoriaF');
+            $table->unsignedBigInteger('categoriaF')->nullable();
             $table->float('altura');
             $table->float('peso');
             $table->float('imc');
-            $table->timestamp('fecha');
+            $table->timestamps(); // Agrega las columnas created_at y updated_at
              // Definimos la clave foránea y la relación con la tabla 'usuario'
              $table->foreign('usuarioF')
              ->references('id')

@@ -11,6 +11,13 @@ class IMC extends Model
     use HasFactory;
     protected $table = "imc";
 
+    protected $fillable = [
+        'usuarioF',
+        'altura',
+        'peso',
+        'imc',
+    ];
+
     public function usuario()
     {
         return $this->belongsTo(User::class);

@@ -71,24 +71,18 @@ class CategoriaController extends Controller
     }
 
 
-    //Metodo para obtener el ID de usuario ingresado
-    public function userIngresado(Request $request)
-    {
-        //Obtenemos el nombre y el password
-        $nombre = $request->input('nombre');
+    public function userIngresado($nombre)
+{
+    //Realizamos la consulta
+    $usuario = User::where('nombre', $nombre)->first();
 
-        //Realizamos la consulta
-        $usuario = User::where('nombre', $nombre)->first();
-
-
-        //PARA VER LA RESPUESTA EN JSON SI ENCUENTRA EL ID
-         if ($usuario) {
-         return response()->json(['usuario' => $usuario->id], 200);
-        } else {
-         return response()->json(['error' => 'Usuario no encontrado'], 404);
-        }
-
+    //PARA VER LA RESPUESTA EN JSON SI ENCUENTRA EL ID
+    if ($usuario) {
+        return response()->json(['usuario' => $usuario->id], 200);
+    } else {
+        return response()->json(['error' => 'Usuario no encontrado'], 404);
     }
+}
 
 
     //Metodo para frases
@@ -132,20 +126,33 @@ class CategoriaController extends Controller
 
     //METODO PARA GUARDAR EL IMC DEPENDIENDO EL USUARIO
 
-    public function registroIMC(Request $request, $userId)
+    public function registroIMC(Request $request, $usuarioF)
     {
-         // Verificar si el usuario existe
-    $user = User::find($userId);
-    if (!$user) {
-        return response()->json(['error' => 'Usuario no encontrado'], 404);
-    }
+        // Verificar si el usuario existe
+        $user = User::find($usuarioF);
+        if (!$user) {
+            return response()->json(['error' => 'Usuario no encontrado'], 404);
+        }
+
         // Crear un nuevo registro de IMC
         $imc = new IMC();
-        $imc->usuarioF = $user->usuarioF; // Asignar el ID del usuario autenticado
+        $imc->usuarioF = $user->id;
+        $imc->categoriaF = null; // Establecer categoriaF en null
         $imc->altura = $request->input('altura');
         $imc->peso = $request->input('peso');
+        $imc->imc = $request->input('imc');
+        $imc->save();
 
+        return response()->json(['message' => 'IMC registrado correctamente'], 200);
+    }
 
+    //MOSTRAR HISTORIAL DE IMC POR USUARIO INGRESADO
+    public function HistorialIMC($idUsuario)
+    {
+        $historialIMC = IMC::where('usuarioF', $idUsuario)
+            ->select('usuarioF', 'altura', 'peso', 'imc', 'created_at')
+            ->get();
+         return response()->json(['historialIMC' => $historialIMC], 200);
 
     }
 

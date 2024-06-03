@@ -6,11 +6,13 @@ use App\Models\Ejercicio;
 use App\Models\Entrenamiento;
 use App\Models\Frases;
 use App\Models\IMC;
+use App\Models\Transformacion;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\Storage;
 
 class CategoriaController extends Controller
 {

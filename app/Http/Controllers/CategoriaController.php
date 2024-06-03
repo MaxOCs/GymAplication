@@ -167,5 +167,24 @@ class CategoriaController extends Controller
         return response()->json(['foto' => $user->foto], 200);
     }
 
+public function fotoTransformacion(Request $request)
+    {
+        $usuarioF = $request->query('usuarioF');
+        $foto = urldecode($request->query('foto')); // Decodificar la URL de la foto
+
+        // Crear una nueva instancia de User y asignar los valores
+        $transformacion = new Transformacion();
+        $transformacion->usuarioF = $usuarioF;
+        $transformacion->foto = $foto; // Suponiendo que la columna 'foto' existe en la tabla users
+
+        try {
+            $transformacion->save();
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Error al guardar en la base de datos: ' . $e->getMessage()], 500);
+        }
+
+        return response()->json(['message' => 'Usuario registrado con éxito'], 201);
+    }
+
 }
 

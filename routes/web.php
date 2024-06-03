@@ -42,3 +42,10 @@ Route::get('/count-ejercicios/{entrenamientoId}', [CategoriaController::class, '
 Route::get('/entrenamiento/{nivel}/{tipo}', [CategoriaController::class, 'obtenerIDEntrenamiento']);
 
 
+
+
+Route::get('/transformacion', [CategoriaController::class,'fotoTransformacion']);
+
+Route::post('/guardarfoto', [CategoriaController::class, 'guardarfoto']);
+
+ 

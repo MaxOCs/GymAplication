@@ -6,11 +6,13 @@ use App\Models\Ejercicio;
 use App\Models\Entrenamiento;
 use App\Models\Frases;
 use App\Models\IMC;
+use App\Models\Transformacion;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\Storage;
 
 class CategoriaController extends Controller
 {
@@ -167,5 +169,42 @@ class CategoriaController extends Controller
         return response()->json(['foto' => $user->foto], 200);
     }
 
+    public function fotoTransformacion(Request $request)
+    {
+        $usuarioF = $request->query('usuarioF');
+        $foto = urldecode($request->query('foto')); // Decodificar la URL de la foto
+
+        // Crear una nueva instancia de User y asignar los valores
+        $transformacion = new Transformacion();
+        $transformacion->usuarioF = $usuarioF;
+        $transformacion->foto = $foto; // Suponiendo que la columna 'foto' existe en la tabla users
+
+        try {
+            $transformacion->save();
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Error al guardar en la base de datos: ' . $e->getMessage()], 500);
+        }
+
+        return response()->json(['message' => 'Usuario registrado con éxito'], 201);
+    }
+
+    public function guardarfoto(Request $request)
+    {
+        $imagenBase64 = $request->input('image');
+
+        // Decodificar la imagen desde base64
+        $imagenDecodificada = base64_decode($imagenBase64);
+
+        // Generar un nombre único para la imagen
+        $nombreImagen = uniqid() . '.jpg';
+
+        // Guardar la imagen en el directorio storage/app/public/fotos
+        Storage::disk('public')->put('fotos/' . $nombreImagen, $imagenDecodificada);
+
+        // Devolver la ruta completa de la imagen guardada (opcional)
+        $rutaImagen = '/storage/fotos/' . $nombreImagen;
+
+        return response()->json(['ruta_imagen' => $rutaImagen], 200);
+    }
 }
 

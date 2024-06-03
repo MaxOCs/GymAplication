@@ -20,5 +20,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(IMC::class);
     }
+    public function Transformacion()
+    {
+        return $this->hasMany(Transformacion::class);
+    }
 
 }

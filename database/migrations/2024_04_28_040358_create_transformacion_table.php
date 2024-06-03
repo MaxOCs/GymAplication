@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('transformacion', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('usuarioF');
-            $table->unsignedBigInteger('categoriaF');
+            $table->unsignedBigInteger('categoriaF')->nullable();
             $table->timestamps();
               // Definimos la clave foránea y la relación con la tabla 'usuario'
               $table->foreign('usuarioF')

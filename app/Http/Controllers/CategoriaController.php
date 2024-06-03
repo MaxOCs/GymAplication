@@ -167,7 +167,7 @@ class CategoriaController extends Controller
         return response()->json(['foto' => $user->foto], 200);
     }
 
-public function fotoTransformacion(Request $request)
+    public function fotoTransformacion(Request $request)
     {
         $usuarioF = $request->query('usuarioF');
         $foto = urldecode($request->query('foto')); // Decodificar la URL de la foto

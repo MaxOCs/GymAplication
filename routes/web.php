@@ -35,6 +35,7 @@ Route::get('/HistorialIMC/{idUsuario}', [CategoriaController::class, 'HistorialI
 
 Route::get('/foto/{nombre}', [CategoriaController::class,'obtenerFotoPerfil']);
 
+Route::get('/fotos/historial/{nombre}', [CategoriaController::class,'obtenerFotoPerfil2']);
 
 Route::get('/transformacion', [CategoriaController::class,'fotoTransformacion']);
 Route::post('/guardarfoto', [CategoriaController::class, 'guardarfoto']);

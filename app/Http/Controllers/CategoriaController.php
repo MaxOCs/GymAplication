@@ -206,5 +206,24 @@ class CategoriaController extends Controller
 
         return response()->json(['ruta_imagen' => $rutaImagen], 200);
     }
+
+    public function obtenerFotoPerfil2($idUsuario)
+    {
+        $user = Transformacion::where('usuarioF', $idUsuario)->get();
+
+        if (!$user) {
+            return response()->json(['error' => 'Usuario no encontrado'], 404);
+        }
+        //para agregar la fecha
+        $fotos = $user->map(function ($transformacion) {
+            return [
+                'foto' => $transformacion->foto,
+                'fecha' => $transformacion->created_at->toDateString()
+            ];
+        });
+
+
+        return response()->json(['foto' => $fotos], 200);
+    }
 }
 

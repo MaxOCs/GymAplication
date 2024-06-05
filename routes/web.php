@@ -30,6 +30,7 @@ Route::get('/getEjercicios', [CategoriaController::class, 'getEjercicios']);
 Route::get('/registroIMC/{usuarioF}', [CategoriaController::class, 'registroIMC']);
 
 Route::get('/userIngresado/{nombre}', [CategoriaController::class, 'userIngresado']);
+Route::get('/fotos/historial/{nombre}', [CategoriaController::class,'obtenerFotoPerfil2']);
 
 Route::get('/HistorialIMC/{idUsuario}', [CategoriaController::class, 'HistorialIMC']);
 

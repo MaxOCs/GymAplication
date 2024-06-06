@@ -190,19 +190,19 @@ class CategoriaController extends Controller
 
     public function obtenerFotoPerfil2($idUsuario)
     {
-        // Buscar el usuario por el ID
         $user = Transformacion::where('usuarioF', $idUsuario)->get();
-    
-        // Verificar si el usuario no fue encontrado
+
         if (!$user) {
-            // Retornar una respuesta JSON con el error
             return response()->json(['error' => 'Usuario no encontrado'], 404);
         }
+        //para agregar la fecha
+        $fotos = $user->map(function ($transformacion) {
+            return [
+                'foto' => $transformacion->foto,
+                'fecha' => $transformacion->created_at->toDateString() 
+            ];
+        });
 
-            // Extraer las fotos de los usuarios
-        $fotos = $user->pluck('foto');
-
-        // Retornar una respuesta JSON con la foto del usuario
         return response()->json(['foto' => $fotos], 200);
     }
 
